@@ -11,6 +11,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Sukoon",
   description: "Peace of mind, guided by faith.",
+  viewport: "width=device-width, initial-scale=1",
 };
 
 export default function RootLayout({
