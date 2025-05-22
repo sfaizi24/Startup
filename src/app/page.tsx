@@ -46,17 +46,17 @@ export default function HomePage() {
   const navLinkClasses = "text-brand-dark-blue hover:text-brand-teal transition-colors duration-300";
   const mobileNavLinkClasses = "block py-2 px-4 text-lg text-brand-dark-blue hover:text-brand-teal hover:bg-brand-light-teal/50 rounded-md transition-colors duration-300";
 
-  const individualImageUrl = "/individual-card.png";
-  const couplesImageUrl = "/individual-card.png";
-  const familyImageUrl = "/individual-card.png";
+  const individualImageUrl = "/individual-desktop.png";
+  const couplesImageUrl = "/couples-desktop.png";
+  const familyImageUrl = "/family-desktop.png";
 
   return (
     <div className="flex flex-col min-h-screen bg-brand-light-teal">
       {/* Header */}
-      <header className="py-6 sticky top-0 z-50 bg-brand-light-teal/80 backdrop-blur-md shadow-sm h-[6rem]">
+      <header className="py-6 sticky top-0 z-50 bg-brand-light-teal/80 backdrop-blur-md shadow-sm h-[8rem]">
         <div className="wrapper flex justify-between items-center">
           <Link href="/" className="flex items-center flex-shrink-0">
-            <Image src="/logo.png" alt="Sukoon Logo" width={300} height={300} className="mr-3" />
+            <Image src="/logo.png" alt="Sukoon Logo" width={250} height={250} className="mr-3" />
           </Link>
           
           {/* Desktop Navigation */}
