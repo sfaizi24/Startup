@@ -20,3 +20,56 @@
     padding: 0 1rem;
   }
 }
+
+/* Default mobile/tablet card styles (horizontal cards) & hero text/teaser sizing for mobile */
+@media (max-width: 1023px) { 
+  /* Apply to .card elements which are used by CardProps */
+  .card-component.card { /* Target cards specifically when they also have .card class */
+    @apply flex-row items-center text-left p-3 w-full !important; /* Horizontal layout, full width */
+  }
+  .card-component.card .card-image-container {
+    @apply w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex-shrink-0 mr-3;
+  }
+  .card-component.card h3 { @apply text-base mb-0.5; }
+  .card-component.card p { @apply text-xs; }
+
+  /* Reduce hero text and teaser section for mobile */
+  #hero h1 { @apply text-2xl md:text-3xl mb-2; } 
+  #hero > .wrapper > p { @apply text-sm md:text-base mb-4; }
+  #hero h2 { @apply text-lg mb-4; } /* Question text */
+
+  #how-sukoon-helps-teaser { @apply pt-3 pb-1; }
+  #how-sukoon-helps-teaser h2 { @apply text-2xl mb-1; }
+  #how-sukoon-helps-teaser .lucide-arrow-down-circle { @apply w-6 h-6; } /* Smaller arrow */
+}
+
+/* User-specified rules for short screens */
+@media (max-height: 800px) {
+  #hero { padding-block: 1.5rem !important; } /* Use !important to ensure override */
+  #hero h1 { @apply text-2xl md:text-3xl !important; }  /* Ensure mobile headline size on short screens */
+  
+  /* Styles for cards on short screens */
+  .card { /* This targets elements with class="card" */
+    @apply w-56 !important; /* narrower cards - applies to both mobile & desktop cards if they have class="card" */
+    
+    /* Additional critical adjustments for DESKTOP cards on short screens */
+    @media (min-width: 1024px) { /* lg breakpoint and up */
+      &.card-component { /* Ensure it's also the full card component */
+        @apply h-48 flex-col justify-center items-center !important; /* fixed height, flex-col for image over text */
+      }
+      &.card-component .card-image-container {
+        @apply h-24 w-full mb-2 !important; /* Adjust image container for flex-col */
+      }
+      &.card-component h3 {
+        @apply text-base !important;
+      }
+       &.card-component p {
+        @apply text-sm !important;
+      }
+    }
+  }
+}
+
+:root{
+  --header-h: 7rem; /* Adjust if header height changes. Note: Original header is h-[6rem] in JSX */
+}
