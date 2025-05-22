@@ -207,18 +207,18 @@ export default function HomePage() {
       </main> 
       
       {/* Visible "How Sukoon helps" Title and Arrow Teaser */}
-      <div id="how-sukoon-helps-teaser" className="bg-white text-center pt-6 pb-2">
+      <div id="how-sukoon-helps-teaser" className="bg-white text-center h-[150px] flex items-center justify-center">
         <div className="wrapper">
           <h2 className="text-3xl font-bold text-brand-dark-blue mb-3">How Sukoon helps</h2>
-          <div className="flex justify-center">
+          <div className="flex justify-center mt-2">
             <ArrowDownCircle size={32} className="text-brand-teal animate-bounce" />
           </div>
         </div>
       </div>
 
       {/* Scrollable "How Sukoon helps" Content */}
-      <section className="bg-white text-center pt-8 pb-16">
-        <div className="wrapper">
+      <section className="bg-white text-center pt-8 h-[100px] overflow-y-auto">
+        <div className="wrapper pb-16">
           <div className="max-w-4xl mx-auto text-left space-y-6 text-brand-text">
             <p>
               [Filler text] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
