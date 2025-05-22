@@ -7,30 +7,33 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowDownCircle, Menu, X } from 'lucide-react';
 
 interface CardProps {
-  title: string;
-  description: string;
-  imageUrl: string;
+  desktopImageUrl: string;
+  mobileImageUrl: string;
   onClick: () => void;
   className?: string;
 }
 
-const Card: React.FC<CardProps> = ({ title, description, imageUrl, onClick, className }) => {
+const Card: React.FC<CardProps> = ({ desktopImageUrl, mobileImageUrl, onClick, className }) => {
   return (
     <motion.div
-      className={`card-component bg-white/80 p-6 rounded-lg shadow-lg text-center cursor-pointer hover:shadow-xl transition-shadow duration-300 w-full lg:w-64 h-auto flex flex-col items-center justify-center flex-none ${className || ''}`}
+      className={`card-component cursor-pointer w-full lg:w-64 h-auto flex flex-col items-center justify-center flex-none ${className || ''}`}
       onClick={onClick}
       whileHover={{ scale: 1.05 }}
     >
-      <div className="card-image-container w-full h-48 sm:h-56 md:h-64 lg:h-64 relative mb-4 bg-gray-200 rounded-md">
-        <Image 
-          src={imageUrl} 
-          alt={title} 
-          fill
-          className="rounded-md object-contain" 
-        />
+      <div className="card-image-container w-full relative">
+        <picture>
+          <source media="(max-width: 767px)" srcSet={mobileImageUrl} />
+          <source media="(min-width: 768px)" srcSet={desktopImageUrl} />
+          <Image
+            src={desktopImageUrl} // Fallback for older browsers
+            alt="Selection card image"
+            layout="responsive"
+            width={512}
+            height={663}
+            className="rounded-md object-contain"
+          />
+        </picture>
       </div>
-      <h3 className="text-xl font-semibold text-brand-dark-blue mb-2">{title}</h3>
-      <p className="text-sm text-brand-text">{description}</p>
     </motion.div>
   );
 };
@@ -49,14 +52,17 @@ export default function HomePage() {
   const individualImageUrl = "/individual-desktop.png";
   const couplesImageUrl = "/couples-desktop.png";
   const familyImageUrl = "/family-desktop.png";
+  const individualMobileImageUrl = "/individual-mobile.png";
+  const couplesMobileImageUrl = "/couples-mobile.png";
+  const familyMobileImageUrl = "/family-mobile.png";
 
   return (
     <div className="flex flex-col min-h-screen bg-brand-light-teal">
-      {/* Header */}
-      <header className="py-6 sticky top-0 z-50 bg-brand-light-teal/80 backdrop-blur-md shadow-sm h-[8rem]">
+      {/* Header: Reduced height on mobile */}
+      <header className="py-2 sticky top-0 z-50 bg-brand-light-teal/80 backdrop-blur-md shadow-sm h-[5rem] md:h-[7rem]">
         <div className="wrapper flex justify-between items-center">
           <Link href="/" className="flex items-center flex-shrink-0">
-            <Image src="/logo.png" alt="Sukoon Logo" width={250} height={250} className="mr-3" />
+            <Image src="/logo.png" alt="Sukoon Logo" width={200} height={80} className="mr-3 w-[130px] h-auto sm:w-[160px] md:w-[180px] lg:w-[200px]" />
           </Link>
           
           {/* Desktop Navigation */}
@@ -93,7 +99,7 @@ export default function HomePage() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-brand-light-teal/95 backdrop-blur-md shadow-lg absolute top-[6rem] left-0 right-0 z-40"
+            className="md:hidden bg-brand-light-teal/95 backdrop-blur-md shadow-lg absolute top-[5rem] left-0 right-0 z-40"
           >
             <nav className="flex flex-col items-center space-y-2 p-6">
               <Link href="/contact" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>[contact us]</Link>
@@ -109,16 +115,15 @@ export default function HomePage() {
 
       {/* Main viewable area: Hero text and interactive cards */}
       <main 
-        className="flex flex-col items-center justify-center text-center pt-10 pb-10" 
-        style={{ minHeight: 'calc(100vh - 13rem)' }}
+        className="flex flex-col items-center justify-start text-center pt-2 sm:pt-3 md:pt-4 pb-6 min-h-[calc(85vh-5rem)] md:min-h-[calc(85vh-7rem)]" 
       >
-        <section id="hero" className="hero flex flex-col items-center text-center max-h-[calc(100vh-18rem)] overflow-hidden">
+        <section id="hero" className="hero flex flex-col items-center text-center w-full py-4 md:py-8">
           <div className="wrapper">
             {/* Hero Text - Always Visible */}
-            <h1 className="text-4xl md:text-5xl font-bold text-brand-dark-blue mb-4">
+            <h1 className="mt-1 text-3xl sm:text-3xl md:text-4xl lg:text-4xl font-bold text-brand-dark-blue mb-2 sm:mb-3">
               Peace of mind, <span className="text-brand-teal">guided by faith.</span>
             </h1>
-            <p className="text-lg md:text-xl text-brand-text max-w-2xl mb-10 mx-auto">
+            <p className="text-sm sm:text-base md:text-base lg:text-lg text-brand-text max-w-xl md:max-w-2xl lg:max-w-3xl mb-3 sm:mb-4 mx-auto">
               Confidential virtual therapy & psychiatric care from licensed Muslim
               clinicians who understand your values.
             </p>
@@ -135,30 +140,27 @@ export default function HomePage() {
                     transition={{ duration: 0.5 }}
                     className="flex flex-col items-center"
                     >
-                    <h2 className="text-2xl font-semibold text-brand-dark-blue mb-8">
+                    <h2 className="text-xl sm:text-2xl md:text-2xl font-semibold text-brand-dark-blue mb-3 sm:mb-4">
                         What best describes you?
                     </h2>
-                    <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-6">
+                    <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 xl:space-x-6">
                         <Card
-                        title="Individual"
-                        description="For myself"
-                        imageUrl={individualImageUrl}
+                        desktopImageUrl={individualImageUrl}
+                        mobileImageUrl={individualMobileImageUrl}
                         onClick={handleCardClick}
-                        className="card"
+                        className="w-full max-w-[220px] sm:max-w-[200px] md:w-44 lg:w-48 xl:w-52"
                         />
                         <Card
-                        title="Couples"
-                        description="For me and my partner"
-                        imageUrl={couplesImageUrl}
+                        desktopImageUrl={couplesImageUrl}
+                        mobileImageUrl={couplesMobileImageUrl}
                         onClick={handleCardClick}
-                        className="card"
+                        className="w-full max-w-[220px] sm:max-w-[200px] md:w-44 lg:w-48 xl:w-52"
                         />
                         <Card
-                        title="Family"
-                        description="For my loved ones"
-                        imageUrl={familyImageUrl}
+                        desktopImageUrl={familyImageUrl}
+                        mobileImageUrl={familyMobileImageUrl}
                         onClick={handleCardClick}
-                        className="card"
+                        className="w-full max-w-[220px] sm:max-w-[200px] md:w-44 lg:w-48 xl:w-52"
                         />
                     </div>
                     </motion.div>
@@ -176,27 +178,24 @@ export default function HomePage() {
                     <h2 className="text-2xl md:text-3xl font-semibold text-brand-dark-blue mb-8">
                         [New Question Filler Text - e.g., What are you looking for support with?]
                     </h2>
-                    <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-6">
+                    <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 xl:space-x-6">
                         <Card
-                        title="Individual"
-                        description="For myself"
-                        imageUrl={individualImageUrl} 
+                        desktopImageUrl={individualImageUrl}
+                        mobileImageUrl={individualMobileImageUrl}
                         onClick={() => { /* Potentially navigate to a different step or page */ }}
-                        className="card"
+                        className="w-full max-w-[220px] sm:max-w-[200px] md:w-44 lg:w-48 xl:w-52"
                         />
                         <Card
-                        title="Couples"
-                        description="For me and my partner"
-                        imageUrl={couplesImageUrl}
+                        desktopImageUrl={couplesImageUrl}
+                        mobileImageUrl={couplesMobileImageUrl}
                         onClick={() => { /* Potentially navigate to a different step or page */ }}
-                        className="card"
+                        className="w-full max-w-[220px] sm:max-w-[200px] md:w-44 lg:w-48 xl:w-52"
                         />
                         <Card
-                        title="Family"
-                        description="For my loved ones"
-                        imageUrl={familyImageUrl}
+                        desktopImageUrl={familyImageUrl}
+                        mobileImageUrl={familyMobileImageUrl}
                         onClick={() => { /* Potentially navigate to a different step or page */ }}
-                        className="card"
+                        className="w-full max-w-[220px] sm:max-w-[200px] md:w-44 lg:w-48 xl:w-52"
                         />
                     </div>
                     </motion.div>

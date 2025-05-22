@@ -21,6 +21,24 @@
   }
 }
 
+/* ScrollCue animation */
+@keyframes pulse-down {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(4px);
+    opacity: 1;
+  }
+}
+
+@layer utilities {
+  .animate-pulse-down {
+    animation: pulse-down 2s ease-in-out infinite;
+  }
+}
+
 /* Default mobile/tablet card styles (horizontal cards) & hero text/teaser sizing for mobile */
 @media (max-width: 1023px) { 
   /* Apply to .card elements which are used by CardProps */
