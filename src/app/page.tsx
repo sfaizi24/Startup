@@ -148,19 +148,19 @@ export default function HomePage() {
                         desktopImageUrl={individualImageUrl}
                         mobileImageUrl={individualMobileImageUrl}
                         onClick={handleCardClick}
-                        className="w-full max-w-[220px] sm:max-w-[200px] md:w-44 lg:w-48 xl:w-52"
+                        className="w-[85vw] md:w-44 lg:w-48 xl:w-52"
                         />
                         <Card
                         desktopImageUrl={couplesImageUrl}
                         mobileImageUrl={couplesMobileImageUrl}
                         onClick={handleCardClick}
-                        className="w-full max-w-[220px] sm:max-w-[200px] md:w-44 lg:w-48 xl:w-52"
+                        className="w-[85vw] md:w-44 lg:w-48 xl:w-52"
                         />
                         <Card
                         desktopImageUrl={familyImageUrl}
                         mobileImageUrl={familyMobileImageUrl}
                         onClick={handleCardClick}
-                        className="w-full max-w-[220px] sm:max-w-[200px] md:w-44 lg:w-48 xl:w-52"
+                        className="w-[85vw] md:w-44 lg:w-48 xl:w-52"
                         />
                     </div>
                     </motion.div>
@@ -183,19 +183,19 @@ export default function HomePage() {
                         desktopImageUrl={individualImageUrl}
                         mobileImageUrl={individualMobileImageUrl}
                         onClick={() => { /* Potentially navigate to a different step or page */ }}
-                        className="w-full max-w-[220px] sm:max-w-[200px] md:w-44 lg:w-48 xl:w-52"
+                        className="w-[90vw] md:w-44 lg:w-48 xl:w-52"
                         />
                         <Card
                         desktopImageUrl={couplesImageUrl}
                         mobileImageUrl={couplesMobileImageUrl}
                         onClick={() => { /* Potentially navigate to a different step or page */ }}
-                        className="w-full max-w-[220px] sm:max-w-[200px] md:w-44 lg:w-48 xl:w-52"
+                        className="w-[90vw] md:w-44 lg:w-48 xl:w-52"
                         />
                         <Card
                         desktopImageUrl={familyImageUrl}
                         mobileImageUrl={familyMobileImageUrl}
                         onClick={() => { /* Potentially navigate to a different step or page */ }}
-                        className="w-full max-w-[220px] sm:max-w-[200px] md:w-44 lg:w-48 xl:w-52"
+                        className="w-[90vw] md:w-44 lg:w-48 xl:w-52"
                         />
                     </div>
                     </motion.div>
