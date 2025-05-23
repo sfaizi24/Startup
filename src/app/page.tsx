@@ -4,16 +4,82 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowDownCircle, Menu, X } from 'lucide-react';
+import { ArrowDownCircle, ArrowLeft, Menu, X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+
+interface Option {
+  id: string;
+  text?: string; // Optional text for the card
+  imageUrl: string;
+  mobileImageUrl: string;
+}
+
+interface Question {
+  title: string;
+  options: Option[];
+  next: (answerId: string, currentAnswers: Record<string, string>) => string; // Returns next question key or results path
+}
+
+interface QuestionnaireData {
+  [key: string]: Question;
+}
+
+// Define your questionnaire structure here
+const questionnaireData: QuestionnaireData = {
+  'initial': {
+    title: "What best describes you?",
+    options: [
+      { id: 'individual', imageUrl: "/individual-desktop.png", mobileImageUrl: "/individual-mobile.png" },
+      { id: 'couples', imageUrl: "/couples-desktop.png", mobileImageUrl: "/couples-mobile.png" },
+      { id: 'family', imageUrl: "/family-desktop.png", mobileImageUrl: "/family-mobile.png" },
+    ],
+    next: (answerId) => `q1_${answerId}` // Example: q1_individual, q1_couples, q1_family
+  },
+  'q1_individual': {
+    title: "As an individual, what are you looking for support with?",
+    options: [
+      // Replace with actual options and images for individuals
+      { id: 'stress', text: "Stress", imageUrl: "/individual-desktop.png", mobileImageUrl: "/individual-mobile.png" },
+      { id: 'anxiety', text: "Anxiety", imageUrl: "/individual-desktop.png", mobileImageUrl: "/individual-mobile.png" },
+      { id: 'relationships', text: "Relationships", imageUrl: "/individual-desktop.png", mobileImageUrl: "/individual-mobile.png" },
+    ],
+    next: (answerId, answers) => {
+      // Example: navigate to a specific results page based on the answer
+      if (answerId === 'anxiety') return '/results/individual/anxiety';
+      return '/results/individual/general'; // Default results page for individuals
+    }
+  },
+  'q1_couples': {
+    title: "For couples, what area needs attention?",
+    options: [
+      // Replace with actual options and images for couples
+      { id: 'communication', text: "Communication", imageUrl: "/couples-desktop.png", mobileImageUrl: "/couples-mobile.png" },
+      { id: 'conflict', text: "Conflict Resolution", imageUrl: "/couples-desktop.png", mobileImageUrl: "/couples-mobile.png" },
+    ],
+    next: () => '/results/couples/general'
+  },
+  'q1_family': {
+    title: "For families, what challenges are you facing?",
+    options: [
+      // Replace with actual options and images for families
+      { id: 'parenting', text: "Parenting Support", imageUrl: "/family-desktop.png", mobileImageUrl: "/family-mobile.png" },
+      { id: 'dynamics', text: "Family Dynamics", imageUrl: "/family-desktop.png", mobileImageUrl: "/family-mobile.png" },
+    ],
+    next: () => '/results/family/general'
+  },
+  // Add more questions and branching logic as needed
+  // e.g., 'q2_individual_stress', etc.
+};
 
 interface CardProps {
   desktopImageUrl: string;
   mobileImageUrl: string;
+  text?: string; // Make text optional
   onClick: () => void;
   className?: string;
 }
 
-const Card: React.FC<CardProps> = ({ desktopImageUrl, mobileImageUrl, onClick, className }) => {
+const Card: React.FC<CardProps> = ({ desktopImageUrl, mobileImageUrl, text, onClick, className }) => {
   return (
     <motion.div
       className={`card-component cursor-pointer w-full lg:w-64 h-auto flex flex-col items-center justify-center flex-none ${className || ''}`}
@@ -26,42 +92,106 @@ const Card: React.FC<CardProps> = ({ desktopImageUrl, mobileImageUrl, onClick, c
           <source media="(min-width: 768px)" srcSet={desktopImageUrl} />
           <Image
             src={desktopImageUrl} // Fallback for older browsers
-            alt="Selection card image"
+            alt={text || "Selection card image"} // Use text for alt if available
             layout="responsive"
             width={512}
             height={663}
             className="rounded-md object-contain"
           />
         </picture>
+        {text && (
+          <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-center p-2 rounded-b-md">
+            <p className="text-sm font-semibold">{text}</p>
+          </div>
+        )}
       </div>
     </motion.div>
   );
 };
 
 export default function HomePage() {
-  const [currentStep, setCurrentStep] = useState(1);
+  const router = useRouter();
+  const [currentQuestionKey, setCurrentQuestionKey] = useState<string>('initial');
+  const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [questionHistory, setQuestionHistory] = useState<string[]>([]);
 
-  const handleCardClick = () => {
-    setCurrentStep(2);
+  const handleOptionClick = (selectedOptionId: string) => {
+    const currentQuestion = questionnaireData[currentQuestionKey];
+    if (!currentQuestion) return; // Should not happen if keys are correct
+
+    const updatedAnswers = { ...userAnswers, [currentQuestionKey]: selectedOptionId };
+    setUserAnswers(updatedAnswers);
+
+    const nextStep = currentQuestion.next(selectedOptionId, updatedAnswers);
+
+    if (nextStep.startsWith('/')) {
+      // It's a path, navigate to results page
+      router.push(nextStep);
+    } else {
+      // It's a key for the next question
+      setQuestionHistory([...questionHistory, currentQuestionKey]);
+      setCurrentQuestionKey(nextStep);
+    }
+  };
+
+  const handleGoBack = () => {
+    if (questionHistory.length === 0) return; // Cannot go back from initial question
+
+    const previousQuestionKey = questionHistory[questionHistory.length - 1];
+    const newHistory = questionHistory.slice(0, -1);
+
+    // Remove the answer for the question we are going back to, so it can be re-answered
+    const { [previousQuestionKey]: removedAnswer, ...remainingAnswers } = userAnswers;
+    // It might be more accurate to remove the answer of the question we are *leaving* (currentQuestionKey)
+    // However, to allow re-answering the *previous* question, we clear its previous answer.
+    // Let's refine this: clear the answer for the `previousQuestionKey` specifically.
+    const updatedAnswers = { ...userAnswers };
+    delete updatedAnswers[previousQuestionKey];
+    setUserAnswers(updatedAnswers);
+    
+    setQuestionHistory(newHistory);
+    setCurrentQuestionKey(previousQuestionKey);
   };
 
   const navLinkClasses = "text-brand-dark-blue hover:text-brand-teal transition-colors duration-300";
   const mobileNavLinkClasses = "block py-2 px-4 text-lg text-brand-dark-blue hover:text-brand-teal hover:bg-brand-light-teal/50 rounded-md transition-colors duration-300";
 
-  const individualImageUrl = "/individual-desktop.png";
-  const couplesImageUrl = "/couples-desktop.png";
-  const familyImageUrl = "/family-desktop.png";
-  const individualMobileImageUrl = "/individual-mobile.png";
-  const couplesMobileImageUrl = "/couples-mobile.png";
-  const familyMobileImageUrl = "/family-mobile.png";
+  const currentQuestion = questionnaireData[currentQuestionKey];
+
+  // Fallback if a question key is invalid (should not happen with correct logic)
+  if (!currentQuestion) {
+    return (
+        <div className="flex flex-col items-center justify-center min-h-screen">
+            <p>Error: Question not found. Resetting...</p>
+            <button 
+                onClick={() => { 
+                    setCurrentQuestionKey('initial'); 
+                    setUserAnswers({}); 
+                    setQuestionHistory([]); 
+                }} 
+                className="mt-4 p-2 bg-brand-dark-blue text-white rounded"
+            >
+                Start Over
+            </button>
+        </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-brand-light-teal">
       {/* Header: Reduced height on mobile */}
       <header className="py-2 sticky top-0 z-50 bg-brand-light-teal/80 backdrop-blur-md shadow-sm h-[5rem] md:h-[7rem]">
         <div className="wrapper flex justify-between items-center">
-          <Link href="/" className="flex items-center flex-shrink-0">
+          <Link 
+            href="/" 
+            className="flex items-center flex-shrink-0"
+            onClick={() => {
+              setCurrentQuestionKey('initial');
+              setUserAnswers({});
+              setQuestionHistory([]);
+            }}
+          >
             <Image src="/logo.png" alt="Sukoon Logo" width={200} height={80} className="mr-3 w-[130px] h-auto sm:w-[160px] md:w-[180px] lg:w-[200px]" />
           </Link>
           
@@ -99,7 +229,7 @@ export default function HomePage() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-brand-light-teal/95 backdrop-blur-md shadow-lg absolute top-[5rem] left-0 right-0 z-40"
+            className="md:hidden bg-brand-light-teal/95 backdrop-blur-md shadow-lg fixed top-[5rem] left-0 right-0 bottom-0 z-40 overflow-y-auto"
           >
             <nav className="flex flex-col items-center space-y-2 p-6">
               <Link href="/contact" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>[contact us]</Link>
@@ -113,11 +243,11 @@ export default function HomePage() {
         )}
       </AnimatePresence>
 
-      {/* Main viewable area: Hero text and interactive cards */}
+      {/* Main viewable area: Hero text and interactive questionnaire */}
       <main 
         className="flex flex-col items-center justify-start text-center pt-2 sm:pt-3 md:pt-4 pb-6 min-h-[calc(85vh-5rem)] md:min-h-[calc(85vh-7rem)]" 
       >
-        <section id="hero" className="hero flex flex-col items-center text-center w-full py-4 md:py-8">
+        <section id="hero-questionnaire" className="hero flex flex-col items-center text-center w-full py-4 md:py-8">
           <div className="wrapper">
             {/* Hero Text - Always Visible */}
             <h1 className="mt-1 text-3xl sm:text-3xl md:text-4xl lg:text-4xl font-bold text-brand-dark-blue mb-2 sm:mb-3">
@@ -131,76 +261,42 @@ export default function HomePage() {
             {/* Animated Question and Cards Section */}
             <div className="flex flex-col items-center">
                 <AnimatePresence mode="wait">
-                {currentStep === 1 && (
                     <motion.div
-                    key="step1"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.5 }}
-                    className="flex flex-col items-center"
+                        key={currentQuestionKey} // Key change triggers animation
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5 }}
+                        className="flex flex-col items-center"
                     >
-                    <h2 className="text-xl sm:text-2xl md:text-2xl font-semibold text-brand-dark-blue mb-3 sm:mb-4">
-                        What best describes you?
-                    </h2>
-                    <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 xl:space-x-6">
-                        <Card
-                        desktopImageUrl={individualImageUrl}
-                        mobileImageUrl={individualMobileImageUrl}
-                        onClick={handleCardClick}
-                        className="w-[85vw] md:w-44 lg:w-48 xl:w-52"
-                        />
-                        <Card
-                        desktopImageUrl={couplesImageUrl}
-                        mobileImageUrl={couplesMobileImageUrl}
-                        onClick={handleCardClick}
-                        className="w-[85vw] md:w-44 lg:w-48 xl:w-52"
-                        />
-                        <Card
-                        desktopImageUrl={familyImageUrl}
-                        mobileImageUrl={familyMobileImageUrl}
-                        onClick={handleCardClick}
-                        className="w-[85vw] md:w-44 lg:w-48 xl:w-52"
-                        />
-                    </div>
+                        <h2 className="text-xl sm:text-2xl md:text-2xl font-semibold text-brand-dark-blue mb-3 sm:mb-4">
+                            {currentQuestion.title}
+                        </h2>
+                        <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 xl:space-x-6">
+                            {currentQuestion.options.map((option) => (
+                                <Card
+                                    key={option.id}
+                                    desktopImageUrl={option.imageUrl}
+                                    mobileImageUrl={option.mobileImageUrl}
+                                    text={option.text}
+                                    onClick={() => handleOptionClick(option.id)}
+                                    className="w-[85vw] md:w-44 lg:w-48 xl:w-52"
+                                />
+                            ))}
+                        </div>
                     </motion.div>
-                )}
-
-                {currentStep === 2 && (
-                    <motion.div
-                    key="step2"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.5 }}
-                    className="flex flex-col items-center"
-                    >
-                    <h2 className="text-2xl md:text-3xl font-semibold text-brand-dark-blue mb-8">
-                        [New Question Filler Text - e.g., What are you looking for support with?]
-                    </h2>
-                    <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 xl:space-x-6">
-                        <Card
-                        desktopImageUrl={individualImageUrl}
-                        mobileImageUrl={individualMobileImageUrl}
-                        onClick={() => { /* Potentially navigate to a different step or page */ }}
-                        className="w-[90vw] md:w-44 lg:w-48 xl:w-52"
-                        />
-                        <Card
-                        desktopImageUrl={couplesImageUrl}
-                        mobileImageUrl={couplesMobileImageUrl}
-                        onClick={() => { /* Potentially navigate to a different step or page */ }}
-                        className="w-[90vw] md:w-44 lg:w-48 xl:w-52"
-                        />
-                        <Card
-                        desktopImageUrl={familyImageUrl}
-                        mobileImageUrl={familyMobileImageUrl}
-                        onClick={() => { /* Potentially navigate to a different step or page */ }}
-                        className="w-[90vw] md:w-44 lg:w-48 xl:w-52"
-                        />
-                    </div>
-                    </motion.div>
-                )}
                 </AnimatePresence>
+
+                {/* Go Back Button */} 
+                {questionHistory.length > 0 && (
+                    <button 
+                        onClick={handleGoBack}
+                        className="mt-6 flex items-center text-brand-dark-blue hover:text-brand-teal transition-colors duration-300 font-semibold py-2 px-4 rounded-md border-2 border-brand-dark-blue hover:border-brand-teal"
+                    >
+                        <ArrowLeft size={20} className="mr-2" />
+                        Go Back
+                    </button>
+                )}
             </div>
           </div>
         </section>
