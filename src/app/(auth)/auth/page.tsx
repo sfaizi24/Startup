@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent, useEffect } from 'react';
+import { useState, FormEvent, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { AuthError } from 'firebase/auth';
@@ -36,7 +36,7 @@ const getDayOptions = () => {
   return days;
 };
 
-export default function AuthPage() {
+function AuthPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { 
@@ -347,5 +347,17 @@ export default function AuthPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AuthPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-brand-light-teal">
+        <p className="text-brand-dark-blue text-xl">Loading...</p>
+      </div>
+    }>
+      <AuthPageContent />
+    </Suspense>
   );
 } 
