@@ -39,34 +39,36 @@ const questionnaireData: QuestionnaireData = {
   'q1_individual': {
     title: "As an individual, what are you looking for support with?",
     options: [
-      // Replace with actual options and images for individuals
       { id: 'stress', text: "Stress", imageUrl: "/individual-desktop.png", mobileImageUrl: "/individual-mobile.png" },
       { id: 'anxiety', text: "Anxiety", imageUrl: "/individual-desktop.png", mobileImageUrl: "/individual-mobile.png" },
       { id: 'relationships', text: "Relationships", imageUrl: "/individual-desktop.png", mobileImageUrl: "/individual-mobile.png" },
     ],
     next: (answerId) => {
-      // Example: navigate to a specific results page based on the answer
-      if (answerId === 'anxiety') return '/results/individual/anxiety';
-      return '/results/individual/general'; // Default results page for individuals
+      if (answerId === 'anxiety' || answerId === 'stress' || answerId === 'relationships') return '/results/1';
+      return '/results/individual/general'; // Default results page for individuals - this might need adjustment if all options lead to /results/1
     }
   },
   'q1_couples': {
     title: "For couples, what area needs attention?",
     options: [
-      // Replace with actual options and images for couples
       { id: 'communication', text: "Communication", imageUrl: "/couples-desktop.png", mobileImageUrl: "/couples-mobile.png" },
       { id: 'conflict', text: "Conflict Resolution", imageUrl: "/couples-desktop.png", mobileImageUrl: "/couples-mobile.png" },
     ],
-    next: () => '/results/couples/general'
+    next: (answerId) => {
+      if (answerId === 'communication' || answerId === 'conflict') return '/results/1';
+      return '/results/couples/general'; // Default results page for couples
+    }
   },
   'q1_family': {
     title: "For families, what challenges are you facing?",
     options: [
-      // Replace with actual options and images for families
       { id: 'parenting', text: "Parenting Support", imageUrl: "/family-desktop.png", mobileImageUrl: "/family-mobile.png" },
       { id: 'dynamics', text: "Family Dynamics", imageUrl: "/family-desktop.png", mobileImageUrl: "/family-mobile.png" },
     ],
-    next: () => '/results/family/general'
+    next: (answerId) => {
+      if (answerId === 'parenting' || answerId === 'dynamics') return '/results/1';
+      return '/results/family/general'; // Default results page for families
+    }
   },
   // Add more questions and branching logic as needed
   // e.g., 'q2_individual_stress', etc.
@@ -192,7 +194,7 @@ export default function HomePage() {
       {/* Header: Reduced height on mobile */}
       <header className="py-2 sticky top-0 z-50 bg-brand-light-teal/80 backdrop-blur-md shadow-sm h-[5rem] md:h-[7rem]">
         <div className="wrapper flex justify-between items-center">
-          <Link 
+          <Link
             href="/"
             className="flex items-center flex-shrink-0"
             onClick={() => {
@@ -205,8 +207,7 @@ export default function HomePage() {
           </Link>
           
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex flex-grow justify-center space-x-4 md:space-x-6 text-sm md:text-base">
-            <Link href="/contact" className={navLinkClasses}>Contact Us</Link>
+          <nav className="hidden md:flex flex-grow justify-center items-center space-x-8 md:space-x-10 text-sm md:text-base">
             <Link href="/work-with-us" className={navLinkClasses}>Work With Us</Link>
             <Link href="/faq" className={navLinkClasses}>FAQ</Link>
             <Link href="/about" className={navLinkClasses}>About Us</Link>
@@ -266,7 +267,6 @@ export default function HomePage() {
           </div>
         </div>
       </header>
-
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
@@ -278,8 +278,8 @@ export default function HomePage() {
             className="md:hidden bg-brand-light-teal/95 backdrop-blur-md shadow-lg fixed top-[5rem] left-0 right-0 bottom-0 z-40 overflow-y-auto"
             // onClick={() => setIsMobileMenuOpen(false)} // Close menu when overlay is clicked
           >
-            <nav className="flex flex-col items-center space-y-2 p-6">
-              <Link href="/contact" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link>
+            <nav className="flex flex-col items-center space-y-4 p-6">
+              <Link href="/" className={mobileNavLinkClasses} onClick={() => {setIsMobileMenuOpen(false); setCurrentQuestionKey('initial'); setUserAnswers({}); setQuestionHistory([]);}}>Home</Link>
               <Link href="/work-with-us" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>Work With Us</Link>
               <Link href="/faq" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>FAQ</Link>
               <Link href="/about" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>About Us</Link>
@@ -311,7 +311,6 @@ export default function HomePage() {
           </motion.div>
         )}
       </AnimatePresence>
-
       {/* Main viewable area: Hero text and interactive questionnaire */}
       <main 
         className="flex flex-col items-center justify-start text-center pt-2 sm:pt-3 md:pt-4 pb-6 min-h-[calc(85vh-5rem)] md:min-h-[calc(85vh-7rem)]" 
@@ -369,8 +368,7 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-      </main> 
-      
+      </main>
       {/* Visible "How Sukoon helps" Title and Arrow Teaser */}
       <div id="how-sukoon-helps-teaser" className="bg-white text-center h-[150px] flex items-center justify-center">
         <div className="wrapper">
@@ -380,7 +378,6 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-
       {/* Scrollable "How Sukoon helps" Content */}
       <section className="bg-white text-center pt-8 h-[100px] overflow-y-auto">
         <div className="wrapper pb-16">
@@ -403,13 +400,11 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
       <footer className="text-center py-8 text-sm text-brand-text/70 bg-white">
         <div className="wrapper">
           <p>&copy; {new Date().getFullYear()} Sukoon. All rights reserved.</p>
         </div>
       </footer>
-
     </div>
   );
 }

@@ -1,0 +1,145 @@
+/* General Page Styles - .container removed as layout is now handled by Tailwind and wrapper classes */
+
+/* Header styles are now handled by Tailwind classes in the component */
+
+/* Reassurance Section - Kept for specific styling not covered by Tailwind */
+.reassurance {
+  /* background-color: #e8f5e9; */ /* Tailwind bg-green-100/50 used instead */
+  /* padding: 20px; */ /* Tailwind p-6 used instead */
+  /* border-radius: 8px; */ /* Tailwind rounded-lg used instead */
+  /* margin-bottom: 30px; */ /* Tailwind mb-8 used instead */
+  text-align: center;
+  font-size: 1.1em; /* Specific font size adjustment */
+  line-height: 1.6;
+}
+
+/* Quran Quote Section - Styles significantly reduced as Tailwind is now primary */
+.quran-quote {
+  /* text-align: center; */ /* Tailwind handles this */
+}
+
+.quran-quote blockquote {
+  /* font-style: italic; */ /* Tailwind handles this if font-serif and italic class are used */
+  margin: 0;
+  padding: 0;
+}
+
+.quran-quote blockquote p {
+  /* margin-bottom: 10px; */ /* Tailwind handles this */
+}
+
+.quran-quote footer {
+  /* text-align: right; */ /* Tailwind handles this */
+}
+
+/* Professionals Section - Kept for specific card styling if needed beyond Tailwind */
+.professionals h2 {
+  /* text-align: center; */ /* Tailwind text-center used */
+  /* font-size: 2em; */ /* Tailwind text-2xl md:text-3xl used */
+  /* margin-bottom: 25px; */ /* Tailwind mb-6 used */
+  /* color: #34495e; */ /* Tailwind text-brand-dark-blue used */
+}
+
+.professionals-list {
+  /* display: flex; */ /* Tailwind grid used instead */
+  /* flex-wrap: wrap; */
+  /* gap: 20px; */ /* Tailwind gap-8 used */
+  /* justify-content: center; */
+}
+
+.professional-card {
+  /* background-color: #ffffff; */ /* Tailwind bg-white used */
+  /* border: 1px solid #ddd; */ /* Tailwind shadow-lg implies border or provides separation */
+  /* border-radius: 8px; */ /* Tailwind rounded-lg used */
+  /* padding: 20px; */ /* Tailwind p-6 used */
+  /* width: calc(50% - 20px); */ /* Tailwind grid handles width */
+  /* box-shadow: 0 2px 5px rgba(0,0,0,0.1); */ /* Tailwind shadow-lg used */
+  /* text-align: center; */ /* Tailwind text-center used */
+  /* transition: transform 0.2s ease-in-out; */ /* Tailwind transition-transform used */
+}
+
+.professional-card:hover {
+  /* transform: translateY(-5px); */ /* Tailwind hover:scale-105 used */
+}
+
+.professional-image {
+  /* border-radius: 50%; */ /* Tailwind rounded-full used */
+  /* margin-bottom: 15px; */ /* Tailwind mb-4 used */
+  /* border: 3px solid #28a745; */ /* Tailwind border-4 border-brand-teal used */
+  /* Note: Next/Image layout="fill" with objectFit="cover" is used, so direct w/h on img might not apply */
+}
+
+.professional-card h3 {
+  /* font-size: 1.5em; */ /* Tailwind text-xl used */
+  /* margin-bottom: 5px; */ /* Tailwind mb-1 used */
+  /* color: #2c3e50; */ /* Tailwind text-brand-dark-blue used */
+}
+
+.professional-card .title {
+  /* font-size: 1em; */ /* Tailwind text-sm used */
+  /* color: #7f8c8d; */ /* Tailwind text-brand-teal used */
+  /* margin-bottom: 10px; */ /* Tailwind mb-2 used */
+}
+
+.professional-card .bio {
+  line-height: 1.5;
+  /* margin-bottom: 15px; */ /* Tailwind mb-4 used */
+  /* color: #555; */ /* Tailwind text-gray-600 used */
+}
+
+/* Buttons - Kept for specific styling if needed beyond Tailwind */
+.book-button, .home-button {
+  /* Tailwind classes are now primarily used for buttons in the JSX */
+  /* background-color: #28a745; */
+  /* color: white; */
+  /* border: none; */
+  /* padding: 12px 25px; */
+  /* text-align: center; */
+  /* text-decoration: none; */
+  /* display: inline-block; */
+  /* font-size: 1em; */
+  /* border-radius: 5px; */
+  /* cursor: pointer; */
+  /* transition: background-color 0.3s ease; */
+}
+
+/* .book-button:hover, .home-button:hover { */
+  /* Tailwind hover states used */
+/* } */
+
+/* .home-button { */
+    /* Tailwind classes used */
+/* } */
+
+/* .home-button:hover { */
+    /* Tailwind hover states used */
+/* } */
+
+/* Footer - Kept for specific styling if needed beyond Tailwind */
+.page-footer {
+  /* text-align: center; */ /* Tailwind text-center used */
+  /* margin-top: 40px; */ /* Tailwind mt-12 used */
+  /* padding-top: 20px; */ /* Tailwind py-6 used (includes padding) */
+  /* border-top: 1px solid #eee; */ /* Tailwind border-t border-gray-200 used */
+  /* font-size: 0.9em; */ /* Tailwind text-sm used */
+  /* color: #7f8c8d; */ /* Tailwind text-gray-500 used */
+}
+
+.page-footer p {
+    /* margin-bottom: 15px; */ /* Tailwind mb-4 used */
+}
+
+/* Responsive adjustments - Tailwind handles responsiveness with its variant prefixes (md:, lg:, etc.) */
+/* @media (max-width: 768px) { */
+  /* .professional-card { */
+    /* width: calc(100% - 20px); */ /* Tailwind grid with col-span handles this */
+  /* } */
+
+  /* .header h1 { */
+    /* font-size: 2em; */ /* Tailwind responsive text sizes used */
+  /* } */
+
+  /* .quran-quote h2, .professionals h2 { */
+    /* font-size: 1.5em; */ /* Tailwind responsive text sizes used */
+  /* } */
+/* } */ 

@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link'; // Import Link for client-side navigation
 import { useAuth } from '@/contexts/AuthContext';
 import { AuthError } from 'firebase/auth';
+import Image from 'next/image';
 
 // Helper function to generate years for dropdown (e.g., last 100 years from current)
 const getYearOptions = () => {
@@ -140,8 +141,8 @@ export default function AuthPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-brand-light-teal p-4 relative">
       {/* "X" button to go to home page */}
-      <Link href="/" legacyBehavior>
-        <a className="absolute top-4 right-4 text-4xl font-semibold text-gray-600 hover:text-gray-800">&times;</a>
+      <Link href="/" className="absolute top-4 right-4 text-4xl font-semibold text-gray-600 hover:text-gray-800">
+        &times;
       </Link>
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-xl">
         <h1 className="text-3xl font-bold text-brand-dark-blue mb-6 text-center">
