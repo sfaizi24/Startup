@@ -22,6 +22,7 @@ module.exports = {
         'brand-light-teal': '#E0F7FA', // Light background
         'brand-dark-blue': '#1E3A8A',  // Sukoon text, headings
         'brand-teal': '#4DD0E1',       // Accent color from logo crescent
+        'brand-dark-teal': '#00A0B0', // Darker teal for hover states etc.
         'brand-text': '#333333',      // General text
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
