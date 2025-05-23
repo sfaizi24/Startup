@@ -29,7 +29,7 @@ const professionalsData: Professional[] = [
     name: 'Udit Shah',
     title: 'Clinical Psychologist, PhD',
     imageUrl: '/areeb.jpg', // Placeholder image
-    fullBio: "Dr. Udit Shah is a dedicated Clinical Psychologist with over 12 years of experience specializing in evidence-based therapies for anxiety, depression, and trauma. He is passionate about creating a safe and affirming space for individuals to explore their challenges and cultivate resilience. Dr. Shah believes in a collaborative approach, tailoring treatment plans to meet the unique needs and cultural backgrounds of his clients. He is committed to helping individuals not only alleviate symptoms but also to foster personal growth and long-term well-being, drawing upon Islamic principles of patience, reflection, and community support where appropriate.".replace(/'|’|‘/g, "&apos;"),
+    fullBio: "Dr. Udit Shah is a dedicated Clinical Psychologist with over 12 years of experience specializing in evidence-based therapies for anxiety, depression, and trauma. He is passionate about creating a safe and affirming space for individuals to explore their challenges and cultivate resilience. Dr. Shah believes in a collaborative approach, tailoring treatment plans to meet the unique needs and cultural backgrounds of his clients. He is committed to helping individuals not only alleviate symptoms but also to foster personal growth and long-term well-being, drawing upon Islamic principles of patience, reflection, and community support where appropriate.",
     experience: [
       "12+ years in private practice and community mental health settings.",
       "Led workshops on stress management and emotional regulation.",
@@ -43,7 +43,7 @@ const professionalsData: Professional[] = [
       "Acceptance and Commitment Therapy (ACT)",
       "Islamic-integrated Psychotherapy"
     ],
-    approach: "Dr. Shah utilizes an integrative and client-centered approach, primarily drawing from CBT, ACT, and mindfulness techniques. He emphasizes building a strong therapeutic alliance and empowering clients with practical skills to navigate life&apos;s difficulties. He also integrates Islamic teachings on emotional and spiritual well-being for clients who wish to incorporate their faith into the therapeutic process.".replace(/'|’|‘/g, "&apos;"),
+    approach: "Dr. Shah utilizes an integrative and client-centered approach, primarily drawing from CBT, ACT, and mindfulness techniques. He emphasizes building a strong therapeutic alliance and empowering clients with practical skills to navigate life&apos;s difficulties. He also integrates Islamic teachings on emotional and spiritual well-being for clients who wish to incorporate their faith into the therapeutic process.",
     education: [
       "PhD in Clinical Psychology - University of Toronto (Placeholder)",
       "MA in Counselling Psychology - McGill University (Placeholder)",
@@ -56,7 +56,7 @@ const professionalsData: Professional[] = [
     name: 'Samer Faizi',
     title: 'Licensed Counselor, MA, LPC',
     imageUrl: '/samer.jpg',
-    fullBio: "Samer Faizi is a compassionate Licensed Counselor dedicated to supporting individuals and couples through life&apos;s challenges. With a focus on holistic well-being, Samer integrates traditional counseling techniques with faith-based perspectives to foster healing and growth. He has a warm, empathetic style and works collaboratively with clients to identify strengths and develop coping strategies. Samer has a particular interest in pre-marital counseling, relationship issues, and helping individuals navigate work-life balance with a sense of purpose and contentment rooted in Islamic values.".replace(/'|’|‘/g, "&apos;"),
+    fullBio: "Samer Faizi is a compassionate Licensed Counselor dedicated to supporting individuals and couples through life&apos;s challenges. With a focus on holistic well-being, Samer integrates traditional counseling techniques with faith-based perspectives to foster healing and growth. He has a warm, empathetic style and works collaboratively with clients to identify strengths and develop coping strategies. Samer has a particular interest in pre-marital counseling, relationship issues, and helping individuals navigate work-life balance with a sense of purpose and contentment rooted in Islamic values.",
     experience: [
       "8+ years experience in counseling individuals and couples.",
       "Facilitated support groups for stress and anxiety.",
@@ -68,7 +68,7 @@ const professionalsData: Professional[] = [
       "Grief and Loss Counseling",
       "Holistic & Faith-Integrated Approaches"
     ],
-    approach: "Samer believes in a holistic and strengths-based approach to counseling. He draws from person-centered therapy, solution-focused techniques, and Gottman Method Couples Therapy. For clients who desire it, he thoughtfully integrates Islamic principles to provide a comprehensive framework for healing and personal development.".replace(/'|’|‘/g, "&apos;"),
+    approach: "Samer believes in a holistic and strengths-based approach to counseling. He draws from person-centered therapy, solution-focused techniques, and Gottman Method Couples Therapy. For clients who desire it, he thoughtfully integrates Islamic principles to provide a comprehensive framework for healing and personal development.",
     education: [
       "MA in Clinical Mental Health Counseling - George Mason University (Placeholder)",
       "BA in Islamic Studies - Zaytuna College (Placeholder)"
