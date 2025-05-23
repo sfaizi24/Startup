@@ -4,8 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowDownCircle, ArrowLeft, Menu, X } from 'lucide-react';
+import { ArrowDownCircle, ArrowLeft, Menu, X, LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface Option {
   id: string;
@@ -111,6 +112,7 @@ const Card: React.FC<CardProps> = ({ desktopImageUrl, mobileImageUrl, text, onCl
 
 export default function HomePage() {
   const router = useRouter();
+  const { currentUser, logout, loading } = useAuth();
   const [currentQuestionKey, setCurrentQuestionKey] = useState<string>('initial');
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -141,11 +143,6 @@ export default function HomePage() {
     const previousQuestionKey = questionHistory[questionHistory.length - 1];
     const newHistory = questionHistory.slice(0, -1);
 
-    // Remove the answer for the question we are going back to, so it can be re-answered
-    const { [previousQuestionKey]: removedAnswer, ...remainingAnswers } = userAnswers;
-    // It might be more accurate to remove the answer of the question we are *leaving* (currentQuestionKey)
-    // However, to allow re-answering the *previous* question, we clear its previous answer.
-    // Let's refine this: clear the answer for the `previousQuestionKey` specifically.
     const updatedAnswers = { ...userAnswers };
     delete updatedAnswers[previousQuestionKey];
     setUserAnswers(updatedAnswers);
@@ -156,8 +153,20 @@ export default function HomePage() {
 
   const navLinkClasses = "text-brand-dark-blue hover:text-brand-teal transition-colors duration-300";
   const mobileNavLinkClasses = "block py-2 px-4 text-lg text-brand-dark-blue hover:text-brand-teal hover:bg-brand-light-teal/50 rounded-md transition-colors duration-300";
+  const ctaButtonClasses = "bg-brand-dark-blue text-white px-4 py-2 rounded-md hover:bg-brand-teal transition-colors duration-300 font-semibold";
+  const mobileCtaButtonClasses = `${mobileNavLinkClasses} ${ctaButtonClasses} w-full text-center`;
 
   const currentQuestion = questionnaireData[currentQuestionKey];
+
+  if (loading) {
+    // Optional: Show a global loading spinner or a skeleton screen
+    return (
+        <div className="flex flex-col items-center justify-center min-h-screen bg-brand-light-teal">
+            <p className="text-brand-dark-blue text-xl">Loading...</p>
+            {/* You can add a spinner component here */}
+        </div>
+    );
+  }
 
   // Fallback if a question key is invalid (should not happen with correct logic)
   if (!currentQuestion) {
@@ -184,7 +193,7 @@ export default function HomePage() {
       <header className="py-2 sticky top-0 z-50 bg-brand-light-teal/80 backdrop-blur-md shadow-sm h-[5rem] md:h-[7rem]">
         <div className="wrapper flex justify-between items-center">
           <Link 
-            href="/" 
+            href="/"
             className="flex items-center flex-shrink-0"
             onClick={() => {
               setCurrentQuestionKey('initial');
@@ -204,18 +213,55 @@ export default function HomePage() {
           </nav>
 
           <nav className="hidden md:flex items-center space-x-4 md:space-x-6 text-sm md:text-base flex-shrink-0">
-            <Link href="/book-now" className="bg-brand-dark-blue text-white px-4 py-2 rounded-md hover:bg-brand-teal transition-colors duration-300 font-semibold">[book now]</Link>
-            <Link href="/login" className={navLinkClasses}>[login]</Link>
+            {currentUser ? (
+              <Link href="/book-now" className={ctaButtonClasses}>[book now]</Link>
+            ) : (
+              <Link href="/auth?action=signup" className={ctaButtonClasses}>Sign Up</Link>
+            )}
+            {currentUser ? (
+              <>
+                {currentUser.displayName && <span className="text-brand-dark-blue">Hi, {currentUser.displayName.split(' ')[0]}</span>}
+                <button onClick={logout} className={navLinkClasses}>[Logout]</button>
+              </>
+            ) : (
+              <Link href="/auth" className={navLinkClasses}>[Login]</Link>
+            )}
           </nav>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
+          {/* Mobile Header Right Side (Auth Status + Menu Button) */}
+          <div className="md:hidden flex items-center space-x-3">
+            {currentUser ? (
+              <>
+                {currentUser.displayName && (
+                  <span className="text-brand-dark-blue text-xs sm:text-sm whitespace-nowrap">
+                    Hi, {currentUser.displayName.split(' ')[0]}
+                  </span>
+                )}
+                <button 
+                  onClick={logout} 
+                  className="text-brand-dark-blue hover:text-brand-teal p-1" 
+                  aria-label="Logout"
+                >
+                  <LogOut size={20} />
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/auth?action=signup" className="bg-brand-dark-blue text-white px-3 py-1.5 rounded-md hover:bg-brand-teal text-xs sm:text-sm font-semibold whitespace-nowrap">
+                    Sign Up
+                </Link>
+                <Link href="/auth" className="text-brand-dark-blue hover:text-brand-teal text-xs sm:text-sm p-1 whitespace-nowrap">
+                    Login
+                </Link>
+              </>
+            )}
+            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-brand-dark-blue focus:outline-none"
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+              {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />} 
             </button>
           </div>
         </div>
@@ -230,14 +276,43 @@ export default function HomePage() {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
             className="md:hidden bg-brand-light-teal/95 backdrop-blur-md shadow-lg fixed top-[5rem] left-0 right-0 bottom-0 z-40 overflow-y-auto"
+            // onClick={() => setIsMobileMenuOpen(false)} // Close menu when overlay is clicked
           >
             <nav className="flex flex-col items-center space-y-2 p-6">
               <Link href="/contact" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>[contact us]</Link>
               <Link href="/work-with-us" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>[work with us]</Link>
               <Link href="/faq" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>[FAQ]</Link>
               <Link href="/about" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>[About us]</Link>
-              <Link href="/book-now" className={`${mobileNavLinkClasses} bg-brand-dark-blue text-white hover:bg-brand-teal font-semibold w-full text-center`} onClick={() => setIsMobileMenuOpen(false)}>[book now]</Link>
-              <Link href="/login" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>[login]</Link>
+              {currentUser ? (
+                <Link href="/book-now" className={mobileCtaButtonClasses} onClick={() => setIsMobileMenuOpen(false)}>[book now]</Link>
+              ) : (
+                <Link href="/auth?action=signup" className={mobileCtaButtonClasses} onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link>
+              )}
+              {/* Auth links: Hi User/Logout or Login are now primarily in header bar for mobile */}
+              {/* Kept here for completeness, can be removed if header bar is preferred location */}
+              {currentUser ? (
+                <>
+                  {currentUser.displayName && (
+                    <span className="block py-2 px-4 text-lg text-brand-dark-blue">
+                      Hi, {currentUser.displayName.split(' ')[0]}
+                    </span>
+                  )}
+                  <button 
+                    onClick={() => { logout(); setIsMobileMenuOpen(false); }} 
+                    className={mobileNavLinkClasses}
+                  >
+                    [Logout]
+                  </button>
+                </>
+              ) : (
+                <Link 
+                  href="/auth" 
+                  className={mobileNavLinkClasses} 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  [Login]
+                </Link>
+              )}
             </nav>
           </motion.div>
         )}
