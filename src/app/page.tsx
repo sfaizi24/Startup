@@ -18,7 +18,7 @@ interface Option {
 interface Question {
   title: string;
   options: Option[];
-  next: (answerId: string, currentAnswers: Record<string, string>) => string; // Returns next question key or results path
+  next: (answerId: string) => string; // Returns next question key or results path
 }
 
 interface QuestionnaireData {
@@ -44,7 +44,7 @@ const questionnaireData: QuestionnaireData = {
       { id: 'anxiety', text: "Anxiety", imageUrl: "/individual-desktop.png", mobileImageUrl: "/individual-mobile.png" },
       { id: 'relationships', text: "Relationships", imageUrl: "/individual-desktop.png", mobileImageUrl: "/individual-mobile.png" },
     ],
-    next: (answerId, answers) => {
+    next: (answerId) => {
       // Example: navigate to a specific results page based on the answer
       if (answerId === 'anxiety') return '/results/individual/anxiety';
       return '/results/individual/general'; // Default results page for individuals
@@ -125,7 +125,7 @@ export default function HomePage() {
     const updatedAnswers = { ...userAnswers, [currentQuestionKey]: selectedOptionId };
     setUserAnswers(updatedAnswers);
 
-    const nextStep = currentQuestion.next(selectedOptionId, updatedAnswers);
+    const nextStep = currentQuestion.next(selectedOptionId);
 
     if (nextStep.startsWith('/')) {
       // It's a path, navigate to results page

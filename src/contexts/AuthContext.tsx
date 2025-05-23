@@ -13,7 +13,7 @@ import {
   AuthError
 } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase/firebase'; // Import db
-import { doc, setDoc, serverTimestamp } from "firebase/firestore"; // Import Firestore functions
+import { doc, setDoc, serverTimestamp, Timestamp, FieldValue } from "firebase/firestore"; // Import Firestore functions
 
 interface UserProfileData {
   uid: string;
@@ -22,7 +22,7 @@ interface UserProfileData {
   lastName: string;
   displayName: string;
   birthday: string; // Store as string, consider ISO format YYYY-MM-DD
-  createdAt: any; // serverTimestamp type, will be Firestore Timestamp
+  createdAt: Timestamp | FieldValue; // Allow FieldValue for writing, will be Timestamp on read
   // Add any other fields you want to store
 }
 
