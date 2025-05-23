@@ -206,25 +206,25 @@ export default function HomePage() {
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex flex-grow justify-center space-x-4 md:space-x-6 text-sm md:text-base">
-            <Link href="/contact" className={navLinkClasses}>[contact us]</Link>
-            <Link href="/work-with-us" className={navLinkClasses}>[work with us]</Link>
-            <Link href="/faq" className={navLinkClasses}>[FAQ]</Link>
-            <Link href="/about" className={navLinkClasses}>[About us]</Link>
+            <Link href="/contact" className={navLinkClasses}>Contact Us</Link>
+            <Link href="/work-with-us" className={navLinkClasses}>Work With Us</Link>
+            <Link href="/faq" className={navLinkClasses}>FAQ</Link>
+            <Link href="/about" className={navLinkClasses}>About Us</Link>
           </nav>
 
           <nav className="hidden md:flex items-center space-x-4 md:space-x-6 text-sm md:text-base flex-shrink-0">
             {currentUser ? (
-              <Link href="/book-now" className={ctaButtonClasses}>[book now]</Link>
+              <Link href="/book-now" className={ctaButtonClasses}>Book Now</Link>
             ) : (
               <Link href="/auth?action=signup" className={ctaButtonClasses}>Sign Up</Link>
             )}
             {currentUser ? (
               <>
                 {currentUser.displayName && <span className="text-brand-dark-blue">Hi, {currentUser.displayName.split(' ')[0]}</span>}
-                <button onClick={logout} className={navLinkClasses}>[Logout]</button>
+                <button onClick={logout} className={navLinkClasses}>Logout</button>
               </>
             ) : (
-              <Link href="/auth" className={navLinkClasses}>[Login]</Link>
+              <Link href="/auth" className={navLinkClasses}>Login</Link>
             )}
           </nav>
 
@@ -279,39 +279,33 @@ export default function HomePage() {
             // onClick={() => setIsMobileMenuOpen(false)} // Close menu when overlay is clicked
           >
             <nav className="flex flex-col items-center space-y-2 p-6">
-              <Link href="/contact" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>[contact us]</Link>
-              <Link href="/work-with-us" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>[work with us]</Link>
-              <Link href="/faq" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>[FAQ]</Link>
-              <Link href="/about" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>[About us]</Link>
+              <Link href="/contact" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link>
+              <Link href="/work-with-us" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>Work With Us</Link>
+              <Link href="/faq" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>FAQ</Link>
+              <Link href="/about" className={mobileNavLinkClasses} onClick={() => setIsMobileMenuOpen(false)}>About Us</Link>
               {currentUser ? (
-                <Link href="/book-now" className={mobileCtaButtonClasses} onClick={() => setIsMobileMenuOpen(false)}>[book now]</Link>
+                <Link href="/book-now" className={mobileCtaButtonClasses} onClick={() => setIsMobileMenuOpen(false)}>Book Now</Link>
               ) : (
-                <Link href="/auth?action=signup" className={mobileCtaButtonClasses} onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link>
+                null
               )}
               {/* Auth links: Hi User/Logout or Login are now primarily in header bar for mobile */}
               {/* Kept here for completeness, can be removed if header bar is preferred location */}
               {currentUser ? (
                 <>
-                  {currentUser.displayName && (
+                  {/* {currentUser.displayName && ( Remove this line
                     <span className="block py-2 px-4 text-lg text-brand-dark-blue">
                       Hi, {currentUser.displayName.split(' ')[0]}
                     </span>
-                  )}
+                  )} */}
                   <button 
                     onClick={() => { logout(); setIsMobileMenuOpen(false); }} 
                     className={mobileNavLinkClasses}
                   >
-                    [Logout]
+                    Logout
                   </button>
                 </>
               ) : (
-                <Link 
-                  href="/auth" 
-                  className={mobileNavLinkClasses} 
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  [Login]
-                </Link>
+                null
               )}
             </nav>
           </motion.div>
