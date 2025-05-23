@@ -150,8 +150,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     logout,
   };
 
-  // This ensures children are rendered only after the initial auth state is determined.
-  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
+  // Render children immediately; consuming components can use the 'loading' state
+  // to show appropriate UI (e.g., skeletons, spinners) instead of delaying child rendering.
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = (): AuthContextType => {

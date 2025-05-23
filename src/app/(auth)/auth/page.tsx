@@ -139,10 +139,14 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-brand-light-teal p-4 relative">
-      {/* "X" button to go to home page */}
-      <Link href="/" className="absolute top-4 right-4 text-4xl font-semibold text-gray-600 hover:text-gray-800">
+      {/* "X" button to go to previous page */}
+      <button 
+        onClick={() => router.back()} 
+        className="absolute top-4 right-4 text-4xl font-semibold text-gray-600 hover:text-gray-800 z-10"
+        aria-label="Close"
+      >
         &times;
-      </Link>
+      </button>
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-xl">
         <h1 className="text-3xl font-bold text-brand-dark-blue mb-6 text-center">
           {isSignUp ? 'Create Account' : 'Welcome Back'}
