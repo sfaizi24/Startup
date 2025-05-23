@@ -118,7 +118,7 @@ export default function ProfessionalProfilePage() {
         </header>
         <main className="flex flex-col items-center justify-center text-center py-10 flex-grow">
           <h1 className="text-2xl text-brand-dark-blue mb-4">Profile Not Found</h1>
-          <p className="text-gray-600 mb-8">We couldn't find a profile for the requested professional.</p>
+          <p className="text-gray-600 mb-8">We couldn&apos;t find a profile for the requested professional.</p>
           <Link href="/">
             <button className="home-button bg-brand-dark-blue text-white px-6 py-2 rounded-md hover:bg-brand-teal transition-colors duration-300 font-semibold">Back to Home</button>
           </Link>

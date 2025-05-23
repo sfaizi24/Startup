@@ -35,7 +35,7 @@ const faqData: FAQItem[] = [
   },
   {
     question: "How do I get started?",
-    answer: "You can start by exploring our homepage questionnaire or by signing up to book a session directly if you already know what you're looking for. If you have any questions, feel free to contact us.",
+    answer: "You can start by exploring our homepage questionnaire or by signing up to book a session directly if you already know what you&apos;re looking for. If you have any questions, feel free to contact us.",
   },
 ];
 
