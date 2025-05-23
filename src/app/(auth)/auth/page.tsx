@@ -2,7 +2,6 @@
 
 import { useState, FormEvent, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link'; // Import Link for client-side navigation
 import { useAuth } from '@/contexts/AuthContext';
 import { AuthError } from 'firebase/auth';
 

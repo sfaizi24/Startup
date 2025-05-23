@@ -4,8 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation'; // To get slug from URL
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, LogOut, CalendarDays, Briefcase, Brain, Users, MessageCircle, CheckCircle } from 'lucide-react'; // Added more icons
+import { CalendarDays, Briefcase, Brain, Users, MessageCircle, CheckCircle } from 'lucide-react'; // Added more icons
 import { useAuth } from '@/contexts/AuthContext';
 import Header from '@/components/Header';
 // import './professional-profile.css'; // Optional: if specific styles are needed
