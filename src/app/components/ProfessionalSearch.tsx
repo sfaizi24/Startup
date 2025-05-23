@@ -128,7 +128,7 @@ const ProfessionalSearch: React.FC = () => {
       )}
       {showSuggestions && suggestions.length === 0 && searchQuery.trim() !== '' && (
          <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg p-4 text-center">
-            <p className="text-gray-600">No professionals found matching "{searchQuery}".</p>
+            <p className="text-gray-600">No professionals found matching &quot;{searchQuery}&quot;.</p>
          </div>
       )}
     </div>
