@@ -35,9 +35,13 @@ export async function POST(request: Request) {
       } else {
         console.log('[api/submit-work-form] Diagnostic read SUCCEEDED. Data:', testData);
       }
-    } catch (diagCatchError: any) {
+    } catch (diagCatchError: unknown) {
       console.error('[api/submit-work-form] CRITICAL error during diagnostic read block:', diagCatchError);
-      return NextResponse.json({ error: 'Critical error during Supabase diagnostic read: ' + diagCatchError.message }, { status: 500 });
+      let errorMessage = 'Critical error during Supabase diagnostic read.';
+      if (diagCatchError instanceof Error) {
+        errorMessage = 'Critical error during Supabase diagnostic read: ' + diagCatchError.message;
+      }
+      return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
     
     // Proceed with insert if diagnostic read was okay

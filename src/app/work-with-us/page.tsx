@@ -64,9 +64,13 @@ export default function WorkWithUsPage() {
       setPhone('');
       setNotes('');
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Submission error:', error);
-      setFormError(error.message || 'Failed to submit the form. Please try again.');
+      if (error instanceof Error) {
+        setFormError(error.message || 'Failed to submit the form. Please try again.');
+      } else {
+        setFormError('An unknown error occurred. Failed to submit the form. Please try again.');
+      }
     }
   };
 

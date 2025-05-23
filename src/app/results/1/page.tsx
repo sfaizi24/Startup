@@ -168,7 +168,7 @@ export default function AnxietyResultsPage() {
                   إِنَّ مَعَ الْعُسْرِ يُسْرًا
                 </p>
                 <p className="text-2xl md:text-3xl text-brand-dark-blue leading-relaxed my-4 font-bold font-serif italic">
-                  "Verily, with hardship comes ease."
+                  &quot;Verily, with hardship comes ease.&quot;
                 </p>
                 <footer className="text-md text-brand-teal mt-4">- Quran 94:5-6</footer>
               </blockquote>
@@ -176,7 +176,7 @@ export default function AnxietyResultsPage() {
 
             <section className="reassurance bg-green-100/50 p-6 rounded-lg shadow-md mb-8">
               <p className="text-lg text-gray-700">
-                It's okay to feel anxious sometimes. Remember that you are not alone, and these feelings can be managed.
+                It&apos;s okay to feel anxious sometimes. Remember that you are not alone, and these feelings can be managed.
                 Allah (SWT) is with those who are patient and seek His help.
               </p>
             </section>

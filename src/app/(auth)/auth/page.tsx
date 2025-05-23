@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link'; // Import Link for client-side navigation
 import { useAuth } from '@/contexts/AuthContext';
 import { AuthError } from 'firebase/auth';
-import Image from 'next/image';
 
 // Helper function to generate years for dropdown (e.g., last 100 years from current)
 const getYearOptions = () => {

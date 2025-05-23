@@ -43,7 +43,7 @@ const professionalsData: Professional[] = [
       "Acceptance and Commitment Therapy (ACT)",
       "Islamic-integrated Psychotherapy"
     ],
-    approach: "Dr. Shah utilizes an integrative and client-centered approach, primarily drawing from CBT, ACT, and mindfulness techniques. He emphasizes building a strong therapeutic alliance and empowering clients with practical skills to navigate life's difficulties. He also integrates Islamic teachings on emotional and spiritual well-being for clients who wish to incorporate their faith into the therapeutic process.",
+    approach: "Dr. Shah utilizes an integrative and client-centered approach, primarily drawing from CBT, ACT, and mindfulness techniques. He emphasizes building a strong therapeutic alliance and empowering clients with practical skills to navigate life&apos;s difficulties. He also integrates Islamic teachings on emotional and spiritual well-being for clients who wish to incorporate their faith into the therapeutic process.",
     education: [
       "PhD in Clinical Psychology - University of Toronto (Placeholder)",
       "MA in Counselling Psychology - McGill University (Placeholder)",
@@ -56,7 +56,7 @@ const professionalsData: Professional[] = [
     name: 'Samer Faizi',
     title: 'Licensed Counselor, MA, LPC',
     imageUrl: '/samer.jpg',
-    fullBio: "Samer Faizi is a compassionate Licensed Counselor dedicated to supporting individuals and couples through life's challenges. With a focus on holistic well-being, Samer integrates traditional counseling techniques with faith-based perspectives to foster healing and growth. He has a warm, empathetic style and works collaboratively with clients to identify strengths and develop coping strategies. Samer has a particular interest in pre-marital counseling, relationship issues, and helping individuals navigate work-life balance with a sense of purpose and contentment rooted in Islamic values.",
+    fullBio: "Samer Faizi is a compassionate Licensed Counselor dedicated to supporting individuals and couples through life&apos;s challenges. With a focus on holistic well-being, Samer integrates traditional counseling techniques with faith-based perspectives to foster healing and growth. He has a warm, empathetic style and works collaboratively with clients to identify strengths and develop coping strategies. Samer has a particular interest in pre-marital counseling, relationship issues, and helping individuals navigate work-life balance with a sense of purpose and contentment rooted in Islamic values.",
     experience: [
       "8+ years experience in counseling individuals and couples.",
       "Facilitated support groups for stress and anxiety.",
